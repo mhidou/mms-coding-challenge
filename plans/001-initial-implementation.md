@@ -19,7 +19,7 @@
 ## Steps
 
 - [x] **1. Bootstrap** — NestJS scaffold, Apollo wired (code-first), health query, README, CLAUDE.md, this plan
-- [ ] **2. Config module** — `@nestjs/config` with env validation (Mongo URI, port); fail fast on invalid config; `.env.example`; docker-compose for MongoDB
+- [x] **2. Config module** — `@nestjs/config` with env validation (Mongo URI, port); fail fast on invalid config; `.env.example`; docker-compose for MongoDB
 - [ ] **3. Order state machine** — pure module: states, allowed transitions, employee invariant; exhaustive unit tests (written first)
 - [ ] **4. Orders module (domain + persistence)** — Mongoose schemas (embedded customer & line items), repository, service using the state machine with atomic conditional updates, typed business errors
 - [ ] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes

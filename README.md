@@ -34,7 +34,10 @@ nvm use
 # 2. Install dependencies
 npm install
 
-# 3. Start the API in watch mode
+# 3. Start MongoDB (used by the upcoming persistence layer)
+docker compose up -d
+
+# 4. Start the API in watch mode
 npm run start:dev
 ```
 
@@ -43,6 +46,15 @@ The GraphQL endpoint (with the GraphiQL IDE) is then available at http://localho
 ```graphql
 { health }
 ```
+
+## Configuration
+
+Configuration comes from environment variables (optionally via a `.env` file — see [.env.example](.env.example)). All values are validated at startup and the app refuses to boot on invalid configuration.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PORT` | `3000` | HTTP port the API listens on |
+| `MONGODB_URI` | `mongodb://localhost:27017/order-management` | MongoDB connection string (default matches `docker-compose.yml`) |
 
 ## Scripts
 
@@ -58,7 +70,8 @@ The GraphQL endpoint (with the GraphiQL IDE) is then available at http://localho
 
 ```
 src/
-  app.module.ts     # Root module: wires GraphQL (Apollo driver) + feature modules
+  app.module.ts     # Root module: wires config, GraphQL (Apollo driver) + feature modules
+  config/           # Environment validation (fail-fast at startup)
   health/           # Liveness query
 plans/              # Written implementation plans, kept up to date as work progresses
 ```
@@ -67,4 +80,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-This is the initial bootstrap (GraphQL API up and running with a health query). See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+GraphQL API up and running (health query) with validated configuration and a docker-compose MongoDB. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
