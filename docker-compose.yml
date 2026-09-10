@@ -1,6 +1,6 @@
 services:
   mongodb:
-    image: mongo:8
+    image: mongo:8.2
     container_name: oms-mongodb
     ports:
       - '27017:27017'
