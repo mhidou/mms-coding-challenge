@@ -29,7 +29,7 @@ resolvers (GraphQL, thin — no business logic)
 - States: `OPEN → IN_PROGRESS → COMPLETE`. No skipping, no reverting.
 - Moving to `IN_PROGRESS` requires an assigned employee (must exist in the `employees` collection).
 - Transitions are concurrency-safe: conditional atomic update (`findOneAndUpdate` with the expected current state in the filter) — never read-then-write.
-- Business errors are typed and mapped to GraphQL error extensions codes: `ORDER_NOT_FOUND`, `INVALID_TRANSITION`, `EMPLOYEE_NOT_FOUND`, `BAD_USER_INPUT`.
+- Business errors are typed and mapped to GraphQL error extensions codes: `ORDER_NOT_FOUND`, `INVALID_TRANSITION`, `EMPLOYEE_REQUIRED`, `EMPLOYEE_NOT_FOUND`, `BAD_USER_INPUT`.
 
 ## Conventions
 
