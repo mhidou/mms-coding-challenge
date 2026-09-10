@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Tests
+coverage/
+
+# Generated GraphQL schema (code-first output)
+schema.gql
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local-only files (not part of the deliverable)
+*.pdf
+.claude/
