@@ -44,8 +44,42 @@ npm run start:dev
 The GraphQL endpoint (with the GraphiQL IDE) is then available at http://localhost:3000/graphql — try:
 
 ```graphql
-{ health }
+mutation {
+  createOrder(
+    input: {
+      customer: { name: "Ada Lovelace", email: "ada@example.com" }
+      lineItems: [{ productName: "Laptop", quantity: 1, unitPriceCents: 99900 }]
+    }
+  ) {
+    id
+    state
+    createdAt
+  }
+}
 ```
+
+Then start it (replace the ids) and inspect it:
+
+```graphql
+mutation {
+  startOrder(orderId: "<id>", employeeId: "emp-001") {
+    id
+    state
+    assignedEmployeeId
+  }
+}
+```
+
+```graphql
+{
+  orders(state: IN_PROGRESS) {
+    totalCount
+    items { id state customer { name } }
+  }
+}
+```
+
+Illegal transitions and malformed input are rejected with typed error codes (`INVALID_TRANSITION`, `EMPLOYEE_REQUIRED`, `ORDER_NOT_FOUND`, `BAD_USER_INPUT`).
 
 ## Configuration
 
@@ -75,6 +109,7 @@ src/
   health/           # Liveness query
   orders/           # Core domain: state machine, service, MongoDB persistence
     domain/         #   Pure business rules (no framework imports) + typed errors
+    graphql/        #   Types, inputs, resolver, domain-error -> GraphQL code mapping
     persistence/    #   Mongoose schema & repository (atomic conditional updates)
 plans/              # Written implementation plans, kept up to date as work progresses
 ```
@@ -83,4 +118,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-Order domain complete (state machine, service, MongoDB persistence with race-free transitions); the GraphQL API for orders is next. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+The order API is fully functional: queries (`orders`, `order`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes. Employees seeding, exhaustive integration tests and CI are next. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.

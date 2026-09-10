@@ -25,7 +25,7 @@
 - [x] **2. Config module** — `@nestjs/config` with env validation (Mongo URI, port); fail fast on invalid config; `.env.example`; docker-compose for MongoDB
 - [x] **3. Order state machine** — pure module: states, allowed transitions, employee invariant; exhaustive unit tests (written first)
 - [x] **4. Orders module (domain + persistence)** — Mongoose schemas (embedded customer & line items), repository, service using the state machine with atomic conditional updates, typed business errors
-- [ ] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes
+- [x] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes
 - [ ] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
 - [ ] **7. Integration tests** — e2e via `mongodb-memory-server`: happy path + every error case (skip, revert, missing employee, unknown ids, malformed input)
 - [ ] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
