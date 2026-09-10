@@ -73,6 +73,9 @@ src/
   app.module.ts     # Root module: wires config, GraphQL (Apollo driver) + feature modules
   config/           # Environment validation (fail-fast at startup)
   health/           # Liveness query
+  orders/           # Core domain: state machine, service, MongoDB persistence
+    domain/         #   Pure business rules (no framework imports) + typed errors
+    persistence/    #   Mongoose schema & repository (atomic conditional updates)
 plans/              # Written implementation plans, kept up to date as work progresses
 ```
 
@@ -80,4 +83,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-GraphQL API up and running (health query) with validated configuration and a docker-compose MongoDB. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+Order domain complete (state machine, service, MongoDB persistence with race-free transitions); the GraphQL API for orders is next. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.

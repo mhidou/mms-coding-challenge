@@ -31,3 +31,12 @@ export class EmployeeRequiredError extends DomainError {
     this.name = 'EmployeeRequiredError';
   }
 }
+
+export class OrderNotFoundError extends DomainError {
+  readonly code = 'ORDER_NOT_FOUND';
+
+  constructor(readonly orderId: string) {
+    super(`Order ${orderId} was not found`);
+    this.name = 'OrderNotFoundError';
+  }
+}
