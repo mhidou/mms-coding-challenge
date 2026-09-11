@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { EmployeesModule } from '../employees/employees.module';
+
 import {
   BadUserInputFilter,
   DomainErrorFilter,
@@ -15,6 +17,7 @@ import { OrdersService } from './orders.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
+    EmployeesModule,
   ],
   providers: [
     OrdersRepository,

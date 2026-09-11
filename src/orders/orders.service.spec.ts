@@ -1,4 +1,6 @@
+import { type EmployeesService } from '../employees/employees.service';
 import {
+  EmployeeNotFoundError,
   EmployeeRequiredError,
   InvalidTransitionError,
   OrderNotFoundError,
@@ -21,10 +23,12 @@ describe('OrdersService', () => {
   const findAll = jest.fn();
   const count = jest.fn();
   const transition = jest.fn();
+  const employeeExists = jest.fn();
   let service: OrdersService;
 
   beforeEach(() => {
     jest.resetAllMocks();
+    employeeExists.mockResolvedValue(true);
     const repository = {
       create,
       findById,
@@ -32,7 +36,10 @@ describe('OrdersService', () => {
       count,
       transition,
     } as unknown as OrdersRepository;
-    service = new OrdersService(repository);
+    const employeesService = {
+      exists: employeeExists,
+    } as unknown as EmployeesService;
+    service = new OrdersService(repository, employeesService);
   });
 
   describe('createOrder', () => {
@@ -99,6 +106,17 @@ describe('OrdersService', () => {
       await expect(service.startOrder(ORDER_ID, '   ')).rejects.toThrow(
         EmployeeRequiredError,
       );
+      expect(employeeExists).not.toHaveBeenCalled();
+      expect(transition).not.toHaveBeenCalled();
+    });
+
+    it('rejects an unknown employee without touching the order', async () => {
+      employeeExists.mockResolvedValue(false);
+
+      await expect(service.startOrder(ORDER_ID, 'emp-999')).rejects.toThrow(
+        EmployeeNotFoundError,
+      );
+      expect(employeeExists).toHaveBeenCalledWith('emp-999');
       expect(transition).not.toHaveBeenCalled();
     });
 

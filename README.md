@@ -44,6 +44,17 @@ npm run start:dev
 The GraphQL endpoint (with the GraphiQL IDE) is then available at http://localhost:3000/graphql — try:
 
 ```graphql
+{
+  employees {
+    id
+    name
+  }
+}
+```
+
+Pick an employee id, then create an order:
+
+```graphql
 mutation {
   createOrder(
     input: {
@@ -107,6 +118,7 @@ src/
   app.module.ts     # Root module: wires config, GraphQL (Apollo driver) + feature modules
   config/           # Environment validation (fail-fast at startup)
   health/           # Liveness query
+  employees/        # Seeded employee collection + query
   orders/           # Core domain: state machine, service, MongoDB persistence
     domain/         #   Pure business rules (no framework imports) + typed errors
     graphql/        #   Types, inputs, resolver, domain-error -> GraphQL code mapping
@@ -118,4 +130,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-The order API is fully functional: queries (`orders`, `order`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes. Employees seeding, exhaustive integration tests and CI are next. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+The API is feature-complete: queries (`orders`, `order`, `employees`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes, seeded employees validated on assignment. Remaining: CI pipeline and demo polish. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.

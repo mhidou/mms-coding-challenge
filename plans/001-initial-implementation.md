@@ -12,12 +12,12 @@
 | Persistence | MongoDB via Mongoose (`@nestjs/mongoose`) | Challenge requires MongoDB; Mongoose gives schema validation + clean Nest integration |
 | Data modeling | Customer and line items embedded in the order document | They have no lifecycle of their own in this scope; avoids joins |
 | Employees | Separate seeded collection; `startOrder` validates the employee exists | Shows a real relation without building out-of-scope CRUD |
+| Employee ids | Human-readable string `_id` (`emp-001`), idempotent upsert seed at startup | Employees would come from an HR system in reality; readable ids keep the demo easy to follow |
 | Transitions API | Explicit mutations (`startOrder`, `completeOrder`) instead of generic `transition(to)` | The schema itself documents the business rule (employee required to start) |
 | Concurrency | Conditional atomic `findOneAndUpdate` (expected state in filter) | Two concurrent transitions cannot both succeed; no read-then-write race |
 | State machine | Pure TS module, no framework/DB deps | Unit-testable in isolation; single place enforcing transition rules |
 | Money | Unit prices stored as integer cents | Avoids floating-point rounding bugs |
 | e2e DB | `mongodb-memory-server` (pulled forward from step 7) | The app connects to MongoDB at startup, so e2e tests need a DB; tests stay Docker-independent |
-| Employee existence check | Deferred to step 6 (employees module) | `startOrder` currently assigns the given id; existence validation lands with the seeded collection |
 
 ## Steps
 
@@ -26,7 +26,7 @@
 - [x] **3. Order state machine** — pure module: states, allowed transitions, employee invariant; exhaustive unit tests (written first)
 - [x] **4. Orders module (domain + persistence)** — Mongoose schemas (embedded customer & line items), repository, service using the state machine with atomic conditional updates, typed business errors
 - [x] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes
-- [ ] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
+- [x] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
 - [ ] **7. Integration tests** — e2e via `mongodb-memory-server`: happy path + every error case (skip, revert, missing employee, unknown ids, malformed input)
 - [ ] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
 - [ ] **9. Demo polish** — order seed script, `demo.http`/GraphQL examples file, README final pass, full local run-through

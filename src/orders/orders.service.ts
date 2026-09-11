@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
+import { EmployeesService } from '../employees/employees.service';
 import {
+  EmployeeNotFoundError,
   EmployeeRequiredError,
   InvalidTransitionError,
   OrderNotFoundError,
@@ -19,7 +21,10 @@ import {
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly ordersRepository: OrdersRepository) { }
+  constructor(
+    private readonly ordersRepository: OrdersRepository,
+    private readonly employeesService: EmployeesService,
+  ) {}
 
   async createOrder(data: CreateOrderData): Promise<OrderDocument> {
     return this.ordersRepository.create(data);
@@ -48,6 +53,9 @@ export class OrdersService {
     const normalisedEmployeeId = employeeId.trim();
     if (!normalisedEmployeeId) {
       throw new EmployeeRequiredError();
+    }
+    if (!(await this.employeesService.exists(normalisedEmployeeId))) {
+      throw new EmployeeNotFoundError(normalisedEmployeeId);
     }
     return this.transitionOrder(
       orderId,

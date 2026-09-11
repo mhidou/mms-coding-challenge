@@ -211,6 +211,18 @@ describe('Orders GraphQL API (e2e)', () => {
 
       expectErrorCode(body, 'EMPLOYEE_REQUIRED');
     });
+
+    it('rejects starting an order with an unknown employee', async () => {
+      const orderId = await createOrder();
+
+      const body = await graphql(START_ORDER, {
+        orderId,
+        employeeId: 'emp-999',
+      });
+
+      expectErrorCode(body, 'EMPLOYEE_NOT_FOUND');
+      expect(body.errors![0].message).toContain('emp-999');
+    });
   });
 
   describe('input handling', () => {

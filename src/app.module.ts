@@ -10,6 +10,7 @@ import {
   type EnvironmentVariables,
   validateEnv,
 } from './config/env.validation';
+import { EmployeesModule } from './employees/employees.module';
 import { HealthModule } from './health/health.module';
 import { OrdersModule } from './orders/orders.module';
 
@@ -31,6 +32,7 @@ import { OrdersModule } from './orders/orders.module';
       graphiql: true,
       includeStacktraceInErrorResponses: false,
     }),
+    EmployeesModule,
     HealthModule,
     OrdersModule,
   ],

@@ -40,3 +40,12 @@ export class OrderNotFoundError extends DomainError {
     this.name = 'OrderNotFoundError';
   }
 }
+
+export class EmployeeNotFoundError extends DomainError {
+  readonly code = 'EMPLOYEE_NOT_FOUND';
+
+  constructor(readonly employeeId: string) {
+    super(`Employee ${employeeId} was not found`);
+    this.name = 'EmployeeNotFoundError';
+  }
+}
