@@ -85,6 +85,16 @@ describe('OrdersService', () => {
       });
     });
 
+    it('persists the trimmed employee id, not the raw input', async () => {
+      transition.mockResolvedValue(orderDoc(OrderState.IN_PROGRESS));
+
+      await service.startOrder(ORDER_ID, `  ${EMPLOYEE_ID}  `);
+
+      expect(transition).toHaveBeenCalledWith(
+        expect.objectContaining({ assignedEmployeeId: EMPLOYEE_ID }),
+      );
+    });
+
     it('rejects a blank employee id without touching the database', async () => {
       await expect(service.startOrder(ORDER_ID, '   ')).rejects.toThrow(
         EmployeeRequiredError,

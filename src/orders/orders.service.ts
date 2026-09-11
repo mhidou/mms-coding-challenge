@@ -19,7 +19,7 @@ import {
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly ordersRepository: OrdersRepository) {}
+  constructor(private readonly ordersRepository: OrdersRepository) { }
 
   async createOrder(data: CreateOrderData): Promise<OrderDocument> {
     return this.ordersRepository.create(data);
@@ -45,10 +45,15 @@ export class OrdersService {
     orderId: string,
     employeeId: string,
   ): Promise<OrderDocument> {
-    if (!employeeId.trim()) {
+    const normalisedEmployeeId = employeeId.trim();
+    if (!normalisedEmployeeId) {
       throw new EmployeeRequiredError();
     }
-    return this.transitionOrder(orderId, OrderState.IN_PROGRESS, employeeId);
+    return this.transitionOrder(
+      orderId,
+      OrderState.IN_PROGRESS,
+      normalisedEmployeeId,
+    );
   }
 
   async completeOrder(orderId: string): Promise<OrderDocument> {
