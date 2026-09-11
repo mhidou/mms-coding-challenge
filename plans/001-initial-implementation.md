@@ -29,7 +29,7 @@
 - [x] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
 - [x] **7. Integration tests** — largely delivered alongside steps 4-6 (happy path + every error case); this step added the concurrency e2e tests proving the atomic-update guarantee (one winner per transition under parallel requests)
 - [x] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
-- [ ] **9. Demo polish** — order seed script, `demo.http`/GraphQL examples file, README final pass, full local run-through
+- [x] **9. Demo polish** — order seed script, `demo.http`/GraphQL examples file, README final pass, full local run-through
 
 ## Out of scope (reasonable assumptions)
 

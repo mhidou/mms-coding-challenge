@@ -108,6 +108,7 @@ Configuration comes from environment variables (optionally via a `.env` file —
 | Command | Purpose |
 | --- | --- |
 | `npm run start:dev` | Run the API in watch mode |
+| `npm run seed:demo` | Seed sample orders in every state (idempotent) |
 | `npm test` | Unit tests |
 | `npm run test:e2e` | End-to-end API tests |
 | `npm run lint` | ESLint (with autofix) |
@@ -133,4 +134,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-The API is feature-complete: queries (`orders`, `order`, `employees`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes, seeded employees validated on assignment. A GitHub Actions pipeline (lint, build, unit + e2e tests — no external services needed) runs on every push and pull request. Remaining: demo polish. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+The API is feature-complete: queries (`orders`, `order`, `employees`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes, seeded employees validated on assignment. Feature-complete. A GitHub Actions pipeline (lint, build, unit + e2e tests — no external services needed) runs on every push and pull request. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the build history and the decisions log. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
