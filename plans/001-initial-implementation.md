@@ -27,7 +27,7 @@
 - [x] **4. Orders module (domain + persistence)** — Mongoose schemas (embedded customer & line items), repository, service using the state machine with atomic conditional updates, typed business errors
 - [x] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes
 - [x] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
-- [ ] **7. Integration tests** — e2e via `mongodb-memory-server`: happy path + every error case (skip, revert, missing employee, unknown ids, malformed input)
+- [x] **7. Integration tests** — largely delivered alongside steps 4-6 (happy path + every error case); this step added the concurrency e2e tests proving the atomic-update guarantee (one winner per transition under parallel requests)
 - [ ] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
 - [ ] **9. Demo polish** — order seed script, `demo.http`/GraphQL examples file, README final pass, full local run-through
 

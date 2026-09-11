@@ -225,6 +225,70 @@ describe('Orders GraphQL API (e2e)', () => {
     });
   });
 
+  describe('concurrency', () => {
+    // These tests exercise the atomic conditional update in the repository:
+    // under parallel requests, exactly one transition may win — the losers
+    // must get a clean INVALID_TRANSITION, never a double state change.
+    it('lets exactly one of many concurrent start attempts win', async () => {
+      const orderId = await createOrder();
+      const employeeIds = ['emp-001', 'emp-002', 'emp-003', 'emp-004'];
+
+      const attempts = await Promise.all(
+        employeeIds.map((employeeId) =>
+          graphql<{ startOrder: OrderShape }>(START_ORDER, {
+            orderId,
+            employeeId,
+          }),
+        ),
+      );
+
+      const successes = attempts.filter((attempt) => !attempt.errors);
+      const failures = attempts.filter((attempt) => attempt.errors);
+      expect(successes).toHaveLength(1);
+      expect(failures).toHaveLength(employeeIds.length - 1);
+      for (const failure of failures) {
+        expect(failure.errors![0].extensions.code).toBe('INVALID_TRANSITION');
+      }
+
+      // The stored order carries the winner's employee, untouched by losers.
+      const winner = successes[0].data!.startOrder;
+      const stored = await graphql<{ order: OrderShape }>(
+        `
+          query Order($id: ID!) {
+            order(id: $id) {
+              state
+              assignedEmployeeId
+            }
+          }
+        `,
+        { id: orderId },
+      );
+      expect(stored.data!.order.state).toBe('IN_PROGRESS');
+      expect(stored.data!.order.assignedEmployeeId).toBe(
+        winner.assignedEmployeeId,
+      );
+    });
+
+    it('lets exactly one of many concurrent complete attempts win', async () => {
+      const orderId = await createOrder();
+      await graphql(START_ORDER, { orderId, employeeId: 'emp-001' });
+
+      const attempts = await Promise.all(
+        Array.from({ length: 4 }, () =>
+          graphql<{ completeOrder: OrderShape }>(COMPLETE_ORDER, { orderId }),
+        ),
+      );
+
+      const successes = attempts.filter((attempt) => !attempt.errors);
+      const failures = attempts.filter((attempt) => attempt.errors);
+      expect(successes).toHaveLength(1);
+      expect(failures).toHaveLength(3);
+      for (const failure of failures) {
+        expect(failure.errors![0].extensions.code).toBe('INVALID_TRANSITION');
+      }
+    });
+  });
+
   describe('input handling', () => {
     it('answers ORDER_NOT_FOUND for an unknown order id', async () => {
       const body = await graphql(`
