@@ -28,7 +28,7 @@
 - [x] **5. GraphQL API** — object types & inputs, queries `orders` (state filter, pagination) / `order(id)`, mutations `createOrder` / `startOrder` / `completeOrder`, error mapping to GraphQL extensions codes
 - [x] **6. Employees module** — schema, seed on startup, `employees` query; `startOrder` validates employee existence
 - [x] **7. Integration tests** — largely delivered alongside steps 4-6 (happy path + every error case); this step added the concurrency e2e tests proving the atomic-update guarantee (one winner per transition under parallel requests)
-- [ ] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
+- [x] **8. CI** — GitHub Actions: install, lint, typecheck/build, unit + e2e tests
 - [ ] **9. Demo polish** — order seed script, `demo.http`/GraphQL examples file, README final pass, full local run-through
 
 ## Out of scope (reasonable assumptions)

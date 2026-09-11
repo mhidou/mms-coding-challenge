@@ -1,5 +1,7 @@
 # Order Management System
 
+[![CI](https://github.com/mhidou/mms-coding-challenge/actions/workflows/ci.yml/badge.svg)](https://github.com/mhidou/mms-coding-challenge/actions/workflows/ci.yml)
+
 A miniature order management system exposing a GraphQL API, built for the MediaMarktSaturn "Store Apps Platform" coding challenge.
 
 ## What it does
@@ -109,6 +111,7 @@ Configuration comes from environment variables (optionally via a `.env` file —
 | `npm test` | Unit tests |
 | `npm run test:e2e` | End-to-end API tests |
 | `npm run lint` | ESLint (with autofix) |
+| `npm run lint:check` | ESLint without autofix (used by CI) |
 | `npm run build` | Compile to `dist/` |
 
 ## Project structure
@@ -130,4 +133,4 @@ The backend is structured into functional modules (NestJS modules), each owning 
 
 ## Status
 
-The API is feature-complete: queries (`orders`, `order`, `employees`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes, seeded employees validated on assignment. Remaining: CI pipeline and demo polish. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.
+The API is feature-complete: queries (`orders`, `order`, `employees`), mutations (`createOrder`, `startOrder`, `completeOrder`), strict state machine enforcement with typed error codes, seeded employees validated on assignment. A GitHub Actions pipeline (lint, build, unit + e2e tests — no external services needed) runs on every push and pull request. Remaining: demo polish. See [plans/001-initial-implementation.md](plans/001-initial-implementation.md) for the full roadmap: order domain & state machine, MongoDB persistence, employees, tests, CI.

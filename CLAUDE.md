@@ -7,7 +7,7 @@ Miniature order management system exposing a GraphQL API. NestJS 11 + Apollo Ser
 - `npm run start:dev` — API in watch mode (GraphiQL at http://localhost:3000/graphql)
 - `npm test` — unit tests (colocated `*.spec.ts`)
 - `npm run test:e2e` — e2e tests in `test/`
-- `npm run lint` / `npm run build`
+- `npm run lint` (autofix) / `npm run lint:check` (CI, no autofix) / `npm run build`
 - Node 24 via nvm (`.nvmrc`); non-interactive shells: `export PATH="$HOME/.nvm/versions/node/v24.21.0/bin:$PATH"`
 
 ## Architecture
